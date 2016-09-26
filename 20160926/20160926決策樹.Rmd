@@ -1,0 +1,67 @@
+---
+title: "20160926決策樹"
+author: "Luke Fan"
+date: "2016年9月26日"
+output: html_document
+---
+
+## 決策樹CART TREE
+```{r}
+p = 0.9  # proportion of training examples in the data set
+
+index = sample(2, nrow(iris), replace = TRUE, prob=c(p,1-p))
+index
+
+#分割資料集（訓練、測試）
+train = iris[index == 1,]
+test = iris[index == 2,]
+
+Xall = iris[,-- which(colnames(iris)=="Species") ]
+# or Xall = iris[ , -  column index of Y ]
+# example  Xall = iris[, - 5]
+
+Xtrain = train[,- which(colnames(iris)=="Species") ]
+# or  Xtrain = train[, - column index of Y ]
+# 例如 Xtest = train[, - 5]
+
+Ytrain = as.factor(train$Species)
+
+Xtest = test[,- which(colnames(iris)=="Species") ]
+# or Xtest = test[, - column index of Y  ] , 
+# example  Xtest = test[, - 5]
+
+# 轉換型態
+Ytest = as.factor(test$Species)
+
+library(tree)
+
+#  (training sample)
+result1 = tree(Species ~ . ,data=train)  # Note that data=train
+result1
+names(result1)
+plot(result1)
+
+#加入標籤
+text(result1)
+Ypred1 = predict(result1,type="class")
+
+t1 = table(train$Species, Ypred1) # Note that train$Species
+t1
+sum(diag(t1))/sum(t1)
+
+#  (test sample)
+result2 = tree(Species ~ . ,data=test)  # Note that  data=test
+result2
+names(result2)
+plot(result2)
+text(result2)
+#---------------------- Note:a new argument  newdata=Xtest is included
+Ypred2 = predict(result1,newdata=Xtest,type="class")
+#-------------------------------------------------------
+
+t2 = table(test$Species, Ypred2) # Note: test$Species
+t2
+sum(diag(t2))/sum(t2)
+```
+
+

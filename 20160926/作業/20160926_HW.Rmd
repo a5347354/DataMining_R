@@ -1,0 +1,71 @@
+---
+title: "20160926_HW"
+author: "Luke Fan"
+date: "2016年9月26日"
+output: html_document
+---
+
+```{r}
+setwd("~/Documents/Ｒ/DataMining/20160926/作業")
+# 讀資料
+heart = read.csv("SAheart.txt",header = TRUE)
+head(heart)
+heart = heart[,-1]
+
+# 分割資料集（訓練、測試）
+p = 0.9  # proportion of training examples in the data set
+index = sample(2, nrow(heart), replace = TRUE, prob=c(p,1-p))
+index
+
+train = heart[index == 1,]
+test = heart[index == 2,]
+
+Xall = heart[,-- which(colnames(heart)=="famhist") ]
+# or Xall = iris[ , -  column index of Y ]
+# example  Xall = iris[, - 5]
+
+Xtrain = train[,- which(colnames(heart)=="famhist") ]
+# or  Xtrain = train[, - column index of Y ]
+# 例如 Xtest = train[, - 5]
+
+Ytrain = as.factor(heart$chd)
+
+Xtest = test[,- which(colnames(heart)=="famhist") ]
+# or Xtest = test[, - column index of Y  ] , 
+# example  Xtest = test[, - 5]
+
+# 轉換型態
+Ytest = as.factor(test$chd)
+
+library(tree)
+
+#  (Tree)
+# Note that data=train
+result1 = tree(famhist ~ . ,data=train)  
+result1
+names(result1)
+plot(result1)
+
+#加入標籤
+text(result1)
+Ypred1 = predict(result1,type="class")
+
+t1 = table(train$famhist, Ypred1) # Note that train$famhist
+t1
+sum(diag(t1))/sum(t1)
+
+#  (test sample)
+result2 = tree(famhist ~ . ,data=test)  # Note that  data=test
+result2
+names(result2)
+plot(result2)
+text(result2)
+#---------------------- Note:a new argument  newdata=Xtest is included
+Ypred2 = predict(result1,newdata=Xtest,type="class")
+#-------------------------------------------------------
+
+t2 = table(test$famhist, Ypred2) # Note: test$Species
+t2
+sum(diag(t2))/sum(t2)
+```
+
