@@ -4,9 +4,8 @@ author: "Luke Fan"
 date: "2016年9月26日"
 output: html_document
 ---
-
+# 第一題
 ```{r}
-setwd("~/Documents/Ｒ/DataMining/20160926/作業")
 # 讀資料
 heart = read.csv("SAheart.txt",header = TRUE)
 head(heart)
@@ -20,16 +19,20 @@ index
 train = heart[index == 1,]
 test = heart[index == 2,]
 
+# 可以註解
 Xall = heart[,-- which(colnames(heart)=="famhist") ]
 # or Xall = iris[ , -  column index of Y ]
 # example  Xall = iris[, - 5]
 
+# 可以註解
 Xtrain = train[,- which(colnames(heart)=="famhist") ]
 # or  Xtrain = train[, - column index of Y ]
 # 例如 Xtest = train[, - 5]
 
+# 可以註解
 Ytrain = as.factor(heart$chd)
 
+# 可以註解
 Xtest = test[,- which(colnames(heart)=="famhist") ]
 # or Xtest = test[, - column index of Y  ] , 
 # example  Xtest = test[, - 5]
@@ -63,9 +66,16 @@ text(result2)
 #---------------------- Note:a new argument  newdata=Xtest is included
 Ypred2 = predict(result1,newdata=Xtest,type="class")
 #-------------------------------------------------------
+```
 
+# 第二題
+```{r}
 t2 = table(test$famhist, Ypred2) # Note: test$Species
 t2
+```
+
+# 第三題
+```{r}
 sum(diag(t2))/sum(t2)
 ```
 
