@@ -1,0 +1,24 @@
+---
+title: "20161017_類神經網路"
+author: "Luke Fan"
+date: "2016/10/17"
+output: html_document
+---
+
+```{r}
+library(neuralnet)
+y = as.numeric(iris$Species)
+iris2 = data.frame(iris[,1:4],y)
+fit = neuralnet(y~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width,hidden = c(3,2), data = iris2)
+fit
+
+#畫出圖表
+plot(fit)
+cf = compute(fit,iris2[,1:4])
+Ypred = round(cf$net.result)
+
+#計算精準度
+(t = table(iris2$y,Ypred))
+cat ("Accuracy = ", sum(diag(t))/sum(t),"\n")
+```
+

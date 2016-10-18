@@ -61,6 +61,7 @@ Ypred2 = predict(result1,newdata=Xtest,type="class")
 
 t2 = table(test$Species, Ypred2) # Note: test$Species
 t2
+
 sum(diag(t2))/sum(t2)
 ```
 
