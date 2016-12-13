@@ -7,8 +7,11 @@ output: html_document
 
 ```{r}
 library(neuralnet)
+#轉成數字型態
 y = as.numeric(iris$Species)
+
 iris2 = data.frame(iris[,1:4],y)
+#類神經網路，hidden隱藏層
 fit = neuralnet(y~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width,hidden = c(3,2), data = iris2)
 fit
 

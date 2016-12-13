@@ -1,0 +1,26 @@
+---
+title: '20161212'
+author: "Luke Fan"
+date: "2016/12/12"
+output: html_document
+---
+
+
+
+
+## Cluster
+```{r}
+dataset <- read.csv()
+x <- dataset
+x
+hc <- hclust(dist(x),"single")
+plot(hc,hang = -1)
+
+#diffrent Level
+class(x)
+x[4,1] <- 13
+hc <- hclust(dist(x),"single")
+plot(hc,hang = -1)
+  
+```
+
